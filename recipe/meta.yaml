@@ -1,4 +1,4 @@
-{% set version = "2.0.0" %}
+{% set version = "None" %}
 
 package:
   name: libjpeg-turbo
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/libjpeg-turbo/libjpeg-turbo/archive/{{ version }}.tar.gz
-  sha256: f892fff427ab3adffc289363eac26d197ce3ccacefe5f5822377348a8166069b
+  sha256: d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed
   # patches:
   #   - 0001-Exclude-some-tests-when-not-WITH-12BIT.patch
 
