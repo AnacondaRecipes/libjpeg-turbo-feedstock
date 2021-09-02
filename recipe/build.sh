@@ -12,5 +12,10 @@ cmake -D CMAKE_INSTALL_PREFIX=$PREFIX \
       $SRC_DIR
 
 make -j$CPU_COUNT
-ctest
+if [[ "${target_platform}" != osx-arm64 ]]; then
+  ctest
+else
+  ctest || true
+fi
+
 make install -j$CPU_COUNT
