@@ -21,7 +21,7 @@ requirements:
     - cmake
     - msinttypes  # [win and py<35]
     - yasm
-    - jom
+    - jom  # [win]
 
 test:
   files:
