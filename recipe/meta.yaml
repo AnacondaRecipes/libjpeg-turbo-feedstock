@@ -22,6 +22,8 @@ requirements:
     - msinttypes  # [win and py<35]
     - yasm
     - jom  # [win]
+    - m2-patch  # [win]
+    - patch     # [not win]
 
 test:
   files:
