@@ -32,10 +32,17 @@ test:
 
 about:
   home: http://www.libjpeg-turbo.org/
+  description: |
+    libjpeg-turbo is a JPEG image codec that uses SIMD instructions (MMX, SSE2, AVX2, Neon, AltiVec) to accelerate
+    baseline JPEG compression and decompression on x86, x86-64, Arm, and PowerPC systems, as well as progressive JPEG
+    compression on x86, x86-64, and Arm systems. On such systems, libjpeg-turbo is generally 2-6x as fast as libjpeg,
+    all else being equal.
   license: IJG AND BSD-3-Clause AND Zlib
+  license_family: BSD
   license_file: LICENSE.md
   summary: IJG JPEG compliant runtime library with SIMD and other optimizations
   dev_url: https://github.com/libjpeg-turbo/libjpeg-turbo
+  doc_url: https://libjpeg-turbo.org/Documentation/Documentation
 
 extra:
   recipe-maintainers:
