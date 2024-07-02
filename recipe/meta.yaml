@@ -17,7 +17,8 @@ requirements:
   build:
     - {{ compiler('c') }}
     - cmake
-    - yasm
+    # https://github.com/libjpeg-turbo/libjpeg-turbo/blob/7fa4b5b762c9a99b46b0b7838f5fd55071b92ea5/BUILDING.md?plain=1#L16
+    - yasm >=1.2.0
     - jom  # [win]
     - make # [not win]
   run_constrained:
