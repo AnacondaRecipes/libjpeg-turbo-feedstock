@@ -2,7 +2,8 @@
 
 mkdir build_libjpeg && cd  build_libjpeg
 
-cmake ${CMAKE_ARGS} -D CMAKE_INSTALL_PREFIX=$PREFIX \
+cmake -G"Ninja" \
+      ${CMAKE_ARGS} -D CMAKE_INSTALL_PREFIX=$PREFIX \
       -D CMAKE_INSTALL_LIBDIR="$PREFIX/lib" \
       -D CMAKE_BUILD_TYPE=Release \
       -D ENABLE_STATIC=1 \
@@ -11,14 +12,14 @@ cmake ${CMAKE_ARGS} -D CMAKE_INSTALL_PREFIX=$PREFIX \
       -D CMAKE_ASM_NASM_COMPILER=yasm \
       $SRC_DIR
 
-make -j$CPU_COUNT
+ninja -j$CPU_COUNT
 if [[ "${target_platform}" != osx-arm64 ]]; then
   ctest
 else
   ctest || true
 fi
 
-make install -j$CPU_COUNT
+ninja install -j$CPU_COUNT
 
 # We can remove this when we start using the new conda-build.
 find $PREFIX -name '*.la' -delete

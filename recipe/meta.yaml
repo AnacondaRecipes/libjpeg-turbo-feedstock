@@ -10,6 +10,8 @@ source:
 
 build:
   number: 0
+  # We don't have yasm for s390x; libjpeg-turbo is needed for torchvision, which we won't build on s390x anyway
+  skip: True # [s390x]
   run_exports:
     - {{ pin_subpackage('libjpeg-turbo', max_pin='x') }}
 
@@ -19,7 +21,7 @@ requirements:
     - cmake
     # https://github.com/libjpeg-turbo/libjpeg-turbo/blob/7fa4b5b762c9a99b46b0b7838f5fd55071b92ea5/BUILDING.md?plain=1#L16
     - yasm >=1.2.0
-    - make
+    - ninja
   run_constrained:
     - jpeg <0.0.0a
 
