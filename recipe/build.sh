@@ -1,7 +1,9 @@
 #!/bin/bash
 
 mkdir build_libjpeg && cd  build_libjpeg
-
+echo "******************PRINTENV******************"
+printenv
+echo "********************************************"
 cmake -G"Ninja" \
       ${CMAKE_ARGS} -D CMAKE_INSTALL_PREFIX=$PREFIX \
       -D CMAKE_INSTALL_LIBDIR="$PREFIX/lib" \
