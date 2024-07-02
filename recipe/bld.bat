@@ -15,6 +15,9 @@ if errorlevel 1 exit 1
 ninja -j%CPU_COUNT%
 if errorlevel 1 exit 1
 
+ninja test
+if errorlevel 1 exit 1
+
 :: Install step
 ninja install
 if errorlevel 1 exit 1

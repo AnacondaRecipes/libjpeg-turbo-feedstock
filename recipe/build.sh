@@ -14,9 +14,9 @@ cmake -G"Ninja" \
 
 ninja -j$CPU_COUNT
 if [[ "${target_platform}" != osx-arm64 ]]; then
-  ctest
+  ninja test
 else
-  ctest || true
+  ninja test || true
 fi
 
 ninja install -j$CPU_COUNT
