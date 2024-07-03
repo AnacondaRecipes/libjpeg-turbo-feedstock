@@ -2,10 +2,6 @@
 
 mkdir build_libjpeg && cd  build_libjpeg
 
-if [[ "${target_platform}" == osx-* ]]; then
-  CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_SKIP_BUILD_RPATH=TRUE"
-fi
-
 echo "******************PRINTENV******************"
 printenv
 echo "********************************************"
@@ -20,11 +16,8 @@ cmake -G"Ninja" \
       $SRC_DIR
 
 ninja -j$CPU_COUNT
-if [[ "${target_platform}" != osx-arm64 ]]; then
-  ninja test
-else
-  ninja test || true
-fi
+
+ninja test
 
 ninja install -j$CPU_COUNT
 
