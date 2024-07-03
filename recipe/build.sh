@@ -1,6 +1,11 @@
 #!/bin/bash
 
 mkdir build_libjpeg && cd  build_libjpeg
+
+if [[ "${target_platform}" == osx-* ]]; then
+  CMAKE_ARGS="${CMAKE_ARGS} -DCMAKE_SKIP_BUILD_RPATH=TRUE"
+fi
+
 echo "******************PRINTENV******************"
 printenv
 echo "********************************************"
