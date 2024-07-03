@@ -13,13 +13,14 @@ cmake -G"Ninja" \
       -D ENABLE_SHARED=1 \
       -D WITH_JPEG8=1 \
       -D CMAKE_ASM_NASM_COMPILER=yasm \
+      -DCMAKE_BUILD_WITH_INSTALL_RPATH=TRUE \
       $SRC_DIR
 
 ninja -j$CPU_COUNT
 
-ninja test
-
 ninja install -j$CPU_COUNT
+
+ninja test
 
 # We can remove this when we start using the new conda-build.
 find $PREFIX -name '*.la' -delete
