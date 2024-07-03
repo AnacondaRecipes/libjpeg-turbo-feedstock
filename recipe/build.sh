@@ -2,9 +2,11 @@
 
 mkdir build_libjpeg && cd  build_libjpeg
 
-echo "******************PRINTENV******************"
-printenv
-echo "********************************************"
+# We build the binaries with the install rpaths, then test the installed binaries.
+# If we don't do this, the build rpaths remain after installation on osx, resulting in DSO check failures.
+# This seems to be an issue on our CI only, as local builds don't replicate it and conda-forge doesn't seem to
+# have the same issue.
+
 cmake -G"Ninja" \
       ${CMAKE_ARGS} -D CMAKE_INSTALL_PREFIX=$PREFIX \
       -D CMAKE_INSTALL_LIBDIR="$PREFIX/lib" \
