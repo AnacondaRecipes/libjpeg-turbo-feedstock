@@ -29,6 +29,21 @@ test:
   files:
     - testorig.jpg
   commands:
+    - test -f ${PREFIX}/include/jpeglib.h               # [unix]
+    - test -f ${PREFIX}/include/turbojpeg.h             # [unix]
+    - test -f ${PREFIX}/lib/libjpeg${SHLIB_EXT}         # [unix]
+    - test -f ${PREFIX}/lib/libjpeg.8${SHLIB_EXT}       # [unix]
+    - test -f ${PREFIX}/lib/libturbojpeg${SHLIB_EXT}    # [unix]
+    - test -f ${PREFIX}/lib/libjpeg.a                   # [unix]
+    - test -f ${PREFIX}/lib/libturbojpeg.a              # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/libjpeg.pc        # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/libturbojpeg.pc   # [unix]
+    - if not exist %LIBRARY_INC%\\jpeglib.h exit 1      # [win]
+    - if not exist %LIBRARY_INC%\\turbojpeg.h exit 1    # [win]
+    - if not exist %LIBRARY_BIN%\\jpeg8.dll exit 1      # [win]
+    - if not exist %LIBRARY_BIN%\\turbojpeg.dll exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\\jpeg.lib exit 1       # [win]
+    - if not exist %LIBRARY_LIB%\\turbojpeg.lib exit 1  # [win]
     - djpeg -dct int -ppm -outfile testout.ppm testorig.jpg
 
 about:
