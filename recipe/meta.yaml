@@ -1,4 +1,4 @@
-{% set version = "2.0.0" %}
+{% set version = "3.0.3" %}
 
 package:
   name: libjpeg-turbo
@@ -6,12 +6,12 @@ package:
 
 source:
   url: https://github.com/libjpeg-turbo/libjpeg-turbo/archive/{{ version }}.tar.gz
-  sha256: f892fff427ab3adffc289363eac26d197ce3ccacefe5f5822377348a8166069b
-  # patches:
-  #   - 0001-Exclude-some-tests-when-not-WITH-12BIT.patch
+  sha256: a649205a90e39a548863a3614a9576a3fb4465f8e8e66d54999f127957c25b21
 
 build:
   number: 0
+  # We don't have yasm for s390x; libjpeg-turbo is needed for torchvision, which we won't build on s390x anyway
+  skip: True # [s390x]
   run_exports:
     - {{ pin_subpackage('libjpeg-turbo', max_pin='x') }}
 
@@ -19,25 +19,51 @@ requirements:
   build:
     - {{ compiler('c') }}
     - cmake
-    - msinttypes  # [win and py<35]
-    - yasm
-    - jom  # [win]
-    - m2-patch  # [win]
-    - patch     # [not win]
+    # https://github.com/libjpeg-turbo/libjpeg-turbo/blob/7fa4b5b762c9a99b46b0b7838f5fd55071b92ea5/BUILDING.md?plain=1#L16
+    - yasm >=1.2.0
+    - ninja
+  run_constrained:
+    - jpeg <0.0.0a
 
 test:
   files:
     - testorig.jpg
   commands:
+    - test -f ${PREFIX}/include/jpeglib.h               # [unix]
+    - test -f ${PREFIX}/include/turbojpeg.h             # [unix]
+    - test -f ${PREFIX}/lib/libjpeg${SHLIB_EXT}         # [unix]
+    - test -f ${PREFIX}/lib/libjpeg.8${SHLIB_EXT}       # [osx]
+    - test -f ${PREFIX}/lib/libjpeg${SHLIB_EXT}.8       # [linux]
+    - test -f ${PREFIX}/lib/libturbojpeg${SHLIB_EXT}    # [unix]
+    - test -f ${PREFIX}/lib/libjpeg.a                   # [unix]
+    - test -f ${PREFIX}/lib/libturbojpeg.a              # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/libjpeg.pc        # [unix]
+    - test -f ${PREFIX}/lib/pkgconfig/libturbojpeg.pc   # [unix]
+    - if not exist %LIBRARY_INC%\\jpeglib.h exit 1      # [win]
+    - if not exist %LIBRARY_INC%\\turbojpeg.h exit 1    # [win]
+    - if not exist %LIBRARY_BIN%\\jpeg8.dll exit 1      # [win]
+    - if not exist %LIBRARY_BIN%\\turbojpeg.dll exit 1  # [win]
+    - if not exist %LIBRARY_LIB%\\jpeg.lib exit 1       # [win]
+    - if not exist %LIBRARY_LIB%\\turbojpeg.lib exit 1  # [win]
     - djpeg -dct int -ppm -outfile testout.ppm testorig.jpg
 
 about:
   home: http://www.libjpeg-turbo.org/
-  license: IJG, modified 3-clause BSD and zlib
+  description: |
+    libjpeg-turbo is a JPEG image codec that uses SIMD instructions (MMX, SSE2, AVX2, Neon, AltiVec) to accelerate
+    baseline JPEG compression and decompression on x86, x86-64, Arm, and PowerPC systems, as well as progressive JPEG
+    compression on x86, x86-64, and Arm systems. On such systems, libjpeg-turbo is generally 2-6x as fast as libjpeg,
+    all else being equal.
+  license: IJG AND BSD-3-Clause AND Zlib
+  license_family: BSD
   license_file: LICENSE.md
   summary: IJG JPEG compliant runtime library with SIMD and other optimizations
+  dev_url: https://github.com/libjpeg-turbo/libjpeg-turbo
+  doc_url: https://libjpeg-turbo.org/Documentation/Documentation
 
 extra:
   recipe-maintainers:
     - valgur
     - sdvillal
+    - carlodri
+    - hmaarrfk
